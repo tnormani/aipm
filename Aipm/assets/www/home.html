@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title></title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta charset="utf-8">
+
+    <link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.css" />
+    <link rel="stylesheet" href="css/aipm.css" />
+    
+    <style>
+        .ui-page {
+            -webkit-backface-visibility: hidden;
+        } 
+    </style>
+    
+        <script src="jquery.mobile/jquery-1.7.2.min">
+            </script>
+        <script src="jquery.mobile/jquery.mobile-1.1.0.min.js">
+            </script> 
+        <script language ="JavaScript" src="js/appetite.js">
+            </script>
+    <script type="text/javascript">
+        
+        function emptyCallback() {
+            
+        }
+        
+    </script>
+      
+  </head>
+  <body>
+      
+      <div data-role="page" id="home">
+          <div data-theme="a" data-role="header" data-position="fixed">
+             
+            <div class="aipm-header">
+                <div style="padding-right: 10pt;">
+                _AIP mobile
+                <div id="next-live-head" class="aipm-header-live">&gt; Prossima data:&nbsp;</div>
+                </div>
+                <script language="javascript">
+                    
+                    var noConnection = sessionStorage.getItem("no-connection");
+                    
+                    var prevPageId = getPageIdInSession();
+                    putPageIdInSession("home");
+                    if (!noConnection) {
+                        var primoConcerto = getFirstConcert();
+                        var concerto = null;
+                        if (primoConcerto.posizione != 'mock') {
+                                  
+                            concerto = primoConcerto.giorno + '/' + primoConcerto.mese + '/' + primoConcerto.anno + ', ' + primoConcerto.nome;
+                            if (prevPageId == 'index') {   
+                                  navigator.notification.alert(concerto, emptyCallback, "Prossima data");
+                            }
+                        } else {
+                                  
+                            concerto = 'nessun concerto previsto';
+                        }
+                    } else {
+                        concerto = 'conn. Internet non disponibile';
+                    }
+                                  
+                    $('#next-live-head').append(concerto).trigger('create');
+                </script>
+            </div>
+          </div>
+          <div data-role="content">
+              
+              <div class="aipm-home-body">
+                  <table>
+                      <tr>
+                          <td>
+                  <div id="aipm-home-div-left">
+                  
+                      <a href="locale.html" data-transition="none">
+                          <img src="images/live_1.png" />
+                      </a>
+                      <a href="#" onclick="navigator.notification.alert('Funzionalit&agrave; al momento non disponibile', emptyCallback, 'Attenzione')">
+                          <img src="images/media_1.png" />
+                      </a>
+                      <a href="band.html" alt="Pagine della biografia della band" data-transition="none">
+                          <img src="images/band_1.png" />
+                      </a>
+                  </div>
+                        </td>
+                        <td>
+                  <div id="aipm-home-div-right">
+                      <a href="news.html" data-transition="none">
+                          <img src="images/news_1.png" />
+                      </a>
+                      <a href="#" onclick="navigator.notification.alert('Funzionalit&agrave; al momento non disponibile', emptyCallback, 'Attenzione')">
+                          <img src="images/social_1.png" />
+                      </a>
+                      <a href="appetite.html" data-transition="none">
+                          <img src="images/APPetite_1.png" />
+                      </a>     
+                  </div>
+                            </td>
+                      </tr>
+                  </table>  
+              </div>
+              
+          </div>
+      </div>
+  </body>
+</html>

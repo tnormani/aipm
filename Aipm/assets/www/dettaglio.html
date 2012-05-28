@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        
+        <link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.css" />
+        <link rel="stylesheet" href="css/aipm.css" />
+        
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="jquery.mobile/jquery-1.7.2.min">
+            </script>
+        <script src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+        <script language ="JavaScript" src="js/appetite.js"></script>
+    </head>
+    <body>
+        <div data-role="page" id="lives-dettaglio" data-add-back-btn="true">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <div class="aipm-header">
+                    <div style="padding-right: 10pt;">
+                        _live
+                        <div class="aipm-header-live">&nbsp;</div>        
+                    </div>
+                </div>
+            </div>
+            <div data-role="content">
+                <div class="aipm-body-pad">
+                    
+                    <div style="position: relative; padding: 0px; margin: 0px; top: -25px;">
+                        <h2 id="live-locale"></h2>
+                    </div>
+            
+                    <div id="live-map" style="position: relative; top: -30px; text-align: center;">
+                        <!-- Immagine Google Maps -->
+                    </div>
+                    <div id="live-info-box" class="live-info" style="position: relative; top: -10px;">
+                        <div class="live-info-box-title">Info</div>
+                        <div class="live-info-box-content" >
+                            <strong id="nome-gruppo"></strong><br/>
+                             
+                            <div class="calendar-big" style="margin-top: 7px; margin-left: 0px; margin-bottom: 0px;">
+                                <div class="calendar-big-mese"></div>
+                                <div class="calendar-big-giorno"></div>
+                            </div>
+                            
+                            <div style="position: absolute; left: 60px; top: 24px; font-size: 11pt; width: 80%; padding: 0px; margin: 0px;" id="live-indirizzo-locale">
+                            </div>
+          
+                            <div id="live-telefono-locale" style="position: absolute; left: 60px; top: 58px; font-size: 11pt; width: 80%; padding: 0px; margin: 0px;">
+                            </div>
+                            <table style="width: 100%; padding: 0px; margin: 0px;">
+                                <tr></tr>
+                                <tr>
+                                    <td id="live-descrizione" style="width: 80%;">
+                                    </td>
+                                    <td id="share-live" class="aipm-icon-desc" style="width: 20%; text-align: right;">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <script language="JavaScript">
+                    
+                    var i = getIndiceConcertiSelectedFromSession();
+                    var tmp = getConcertoSelectedFromSession(i);
+                    var address = tmp.via + ', ' + tmp.numeroCivico + ', ' + tmp.citta;
+                    
+                    /* Nome del gruppo */
+                    var nomeGruppo = tmp.nomeGruppo != "" ? tmp.nomeGruppo : "Anime in Plexiglass";
+                    $('#nome-gruppo').append(nomeGruppo);
+                    
+                    var via = tmp.via != "" ? tmp.via + ', ' : '';
+                    var numCivico = tmp.numeroCivico != "" ? tmp.numeroCivico + ', ' : '';
+                    var cap = tmp.cap != "" ? tmp.cap + ', ' : '';
+                    var citta = tmp.citta != "" ? tmp.citta + ', ' : '';
+                    var provincia = tmp.provincia != "" ? tmp.provincia + ', ' : '';
+                    var stato = tmp.stato != "" ? tmp.stato + ', ' : '';
+                    var indirizzoLocale = via + numCivico + cap + citta + provincia + stato;
+                    var penCar = indirizzoLocale.charAt(indirizzoLocale.length - 2);
+                    if (penCar == ',') {
+                        indirizzoLocale = indirizzoLocale.substr(0, indirizzoLocale.length - 2);
+                    }
+                    
+                    $('#live-indirizzo-locale').append(indirizzoLocale);
+                    
+                    if (indirizzoLocale.length < 40) {
+                        var numTelefono = tmp.numeroTelefono != "" ? tmp.numeroTelefono : 'Nessun recapito disp.';
+                        $('#live-telefono-locale').append('<strong>Info</strong>: ' + numTelefono);
+                    }
+                    
+                    var localeHeading = tmp.nome;
+                    $('#live-locale').append(localeHeading);
+                    
+                    // Valorizzo il calendario
+                    $('div.calendar-big-mese').append(getMonthName(tmp.mese));
+                    $('div.calendar-big-giorno').append(tmp.giorno);
+                    
+                    // Descrizione data
+                    var descrizione = tmp.descrizioneConcerto;
+                    //var descrizione1 = descrizione.replace("à", "&agrave;");
+                    //descrizione = descrizione.replace("è", "&egrave;");
+                    $('#live-descrizione').append(descrizione);
+                    
+                    var mapImage = '<img src="https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&amp;zoom=14&amp;size=284x190&amp;markers=' + address + '&amp;sensor=false" width="284" height="190" />';
+                    $('#live-map').append(mapImage);
+                    
+                    var fbhref = "https://m.facebook.com/dialog/feed?app_id=198073613647325&link=https://www.facebook.com/groups/51483488642&picture=http://dl.dropbox.com/u/2306550/icon-72.png&name=" + tmp.nomeGruppo + "&caption=" + tmp.giorno + "/" + tmp.mese + "/" + tmp.anno + "&description=Nuovo concerto presso " + tmp.nome +" il " + tmp.giorno + "/" + tmp.mese + "/" + tmp.anno + ".&redirect_uri=http://www.facebook.com/groups/51483488642&display=touch";
+                    var fbhrefsp = fbhref.replace(" ", "%20");
+                    
+                    var fbLink = '<a rel="external" target="_blank" href="' + fbhrefsp + '"><img src="images/share.png" alt="Condividi" /></a><br/>Condividi';
+                    $('#share-live').append(fbLink);
+                </script>
+            </div>
+        </div>
+    </body>
+</html>

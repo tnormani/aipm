@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.css" />
+        <link rel="stylesheet" href="css/aipm.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="jquery.mobile/jquery-1.7.2.min"></script>
+        <script src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+        <script language ="JavaScript" src="js/appetite.js"></script>
+    </head>
+    <body>
+        <div data-role="page" id="lives" data-add-back-btn="true" data-back-btn-text="Home">
+            <div data-theme="a" data-role="header" data-position="fixed">
+                <div class="aipm-header">
+                    <div style="padding-right: 10pt;">
+                        _news
+                        <div class="aipm-header-live">&nbsp;</div>        
+                    </div>
+                </div>
+            </div>
+            
+            <div data-role="content">
+                <div class="aipm-body-pad">
+                    <div id="news-container" class="news-list">
+                    </div>
+                    <script language ="JavaScript">
+                    	var output = getNewsFromSession();
+                        
+						var outputList = '';
+						var j;
+                        if (output.length != 0) {
+                            for (j=0; j<output.length; j++) {
+                            
+                                newsData = output[j].giorno + '/' + output[j].mese + '/' + output[j].anno;
+                            
+                                var fbhref = "https://m.facebook.com/dialog/feed?app_id=198073613647325&link=https://www.facebook.com/groups/51483488642&picture=http://dl.dropbox.com/u/2306550/icon-72.png&name=Anime in Plexiglass news&caption=" + output[j].titolo + "&description=" + newsData + ", " + output[j].testo + "&redirect_uri=http://www.facebook.com/groups/51483488642&display=touch";
+                                var fbhrefsp = fbhref.replace(" ", "%20");
+                            
+                                outputList += '<div><strong style="color: #bcbcbc;">' + output[j].titolo + '</strong><br style="line-height: 130%;"/><span>' + output[j].testo + '</span><br style="line-height: 130%;"/><div class="news-footer">' + newsData + '&nbsp;&nbsp;&nbsp;Condividi <a rel="external" target="_blank" href="' + fbhrefsp + '"><img src="images/fb-icon-small.png" /></a></div><hr/></div>';
+                            }
+                        } else {
+                            var noConn = sessionStorage.getItem("no-connection");
+                            if (noConn) {
+                                outputList += 'Connessione Internet non disponibile.';
+                            } else {
+                                outputList += 'Nessuna notizia disponibile.';
+                            }
+                        }
+						$('#news-container').append(outputList).trigger('create');
+                    </script>
+                </div>
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
+    </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title></title>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+	<meta charset="utf-8">
+
+    <link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.css" />
+    <link rel="stylesheet" href="css/aipm.css" />
+
+	<script type="text/javascript" charset="utf-8" src="cordova-1.6.1.js"></script>
+        <script src="jquery.mobile/jquery-1.7.2.min">
+            </script>
+        <script type="text/javascript">
+        	$(document).bind("mobileinit", function(){
+			  $.extend(  $.mobile , {
+			    pushStateEnabled: false
+			  });
+			});
+        </script>
+        <script src="jquery.mobile/jquery.mobile-1.1.0.min.js">
+            </script> 
+        <script language ="JavaScript" src="js/appetite.js">
+            </script>
+        <script type="text/javascript">
+
+
+	// If you want to prevent dragging, uncomment this section
+	/*
+	function preventBehavior(e) 
+	{ 
+      e.preventDefault(); 
+    };
+	document.addEventListener("touchmove", preventBehavior, false);
+	*/
+	
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	/*
+	function handleOpenURL(url)
+	{
+		// TODO: do something with the url passed in.
+	}
+	*/
+	
+	function onBodyLoad()
+	{		
+		document.addEventListener("deviceready", onDeviceReady, true);
+	}
+        
+    function emptyCallback() {
+             
+    }
+	
+	/* When this function is called, Cordova has been initialized and is ready to roll */
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	function onDeviceReady()
+	{
+        
+        putConcertiInSession("http://www.aipband.com/public/appMobile/concerti.txt");
+        putNewsInSession("http://www.aipband.com/public/appMobile/news.txt");
+        putPageIdInSession("index");
+	}
+        
+    $(function() {
+      setTimeout(hideSplash, 5000);
+    });
+        
+    function hideSplash() {
+        $.mobile.changePage("home.html", "fade");
+    }
+    
+    </script>
+      
+  
+	<!-- CDN Respositories: For production, replace lines above with these uncommented minified versions -->
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />-->
+	<!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>-->
+	<!-- <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>-->
+	</head>
+  <body onload="onBodyLoad()">
+      
+      <div data-role="page" id="index">
+          <div data-theme="a" data-role="header">
+             
+          </div>
+          <div data-role="content">
+              <div style="position: fixed; top: 0px; left: 0px; margin: 0px; padding: 0px; text-align: center;">
+                  <a href="#">
+                      <img src="images/aip-splash.png" />
+                  </a>
+              </div>
+          </div>
+      </div>
+  </body>
+</html>
