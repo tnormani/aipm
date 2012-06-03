@@ -62,7 +62,10 @@
                     } else {
                         concerto = 'conn. Internet non disponibile';
                     }
-                                  
+                    
+                    if (concerto.length > 35) {
+                        concerto = concerto.substring(0, 35) + '...';
+                    }
                     $('#next-live-head').append(concerto).trigger('create');
                 </script>
             </div>
