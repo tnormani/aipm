@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.css" />
+        <link rel="stylesheet" href="css/aipm.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="jquery.mobile/jquery-1.7.2.min">
+        </script>
+        <script src="jquery.mobile/jquery.mobile-1.1.0.min.js">
+        </script>
+        <script language ="JavaScript" src="js/appetite.js">
+        </script>
+    
+		<!-- LIBRERIE GALLERY -->
+		<script type="text/javascript" src="js/klass.min.js"></script>
+		<script type="text/javascript" src="js/code.photoswipe-3.0.5.min.js"></script>
+		<link rel="stylesheet" href="css/photoswipe.css" />
+
+	</head>
+
+	<body>
+
+		<div data-role="page" id="media" data-add-back-btn="true">
+		
+			<div data-theme="a" data-role="header" data-position="fixed">
+				<div class="aipm-header">
+					<div style="padding-right: 10pt;">
+						_gallery
+						<div class="aipm-header-live">&nbsp;</div>        
+					</div>
+				</div>
+			</div>
+			
+			<div id="immagini" />
+			
+			<script type="text/javascript">
+
+				document.addEventListener('DOMContentLoaded', function(){
+					var myPhotoSwipe = Code.PhotoSwipe.attach( window.document.querySelectorAll('#Gallery a'), { enableMouseWheel: false , enableKeyboard: false } );
+				}, false);
+				
+				
+				var output = getImmaginiFromSession();
+				var outputList = '';
+				outputList += '<ul id="Gallery" class="gallery">';
+				
+				if (output.length != 0) {
+					for (j=0; j<output.length; j++) {
+							var name = output[j].name;
+							var path = output[j].path;
+							var thumb = output[j].thumb;
+					
+						outputList += '<li><a href="'+path+name+'" rel="external"><img src="'+thumb+name+'" alt="'+name+'" /></a></li>';
+					}
+					outputList += '</ul>';
+					
+				} else {
+					var noConn = sessionStorage.getItem("no-connection");
+					if (noConn) {
+						outputList += 'Connessione Internet non disponibile.';
+					} else {
+						outputList += 'Nessuna immagine disponibile.';
+					}
+				}
+				$('#immagini').append(outputList);
+				
+			</script>
+
+		</div>
+			
+
+
+	</body>
+	
+</html>
